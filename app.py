@@ -297,7 +297,7 @@ if "history_data" in st.session_state:
                             use_container_width=True,
                             hide_index=True
                         )
-                     else:
+                else:
                         st.info(
                             "No subsequent candles are available "
                             "after this historical match."
