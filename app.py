@@ -104,15 +104,22 @@ st.divider()
 st.header("3. Historical Matching")
 
 st.write(
-    "Compare a selected 48-candle target with earlier "
-    "historical patterns and inspect what happened afterward."
+    "Compare a selected target with earlier historical "
+    "patterns and inspect what happened afterward."
+)
+
+pattern_length = st.selectbox(
+    "Pattern length (hourly candles)",
+    [48, 72, 96, 144],
+    index=3,
+    key="matching_pattern_length"
 )
 
 if "history_data" in st.session_state:
     history = st.session_state["history_data"].copy()
 
-    if len(history) >= 97:
-        max_start = len(history) - 48
+    if len(history) >= pattern_length * 2 + 1:
+        max_start = len(history) - pattern_length
 
         target_start = st.number_input(
             "Target starting candle index",
@@ -124,7 +131,7 @@ if "history_data" in st.session_state:
         )
 
         target_start = int(target_start)
-        target_end = target_start + 48
+        target_end = target_start + pattern_length
 
         target = history.iloc[target_start:target_end].copy()
 
@@ -135,7 +142,7 @@ if "history_data" in st.session_state:
             str(target["timestamp"].iloc[-1])
         )
 
-        if len(target) == 48:
+        if len(target) == pattern_length:
             target_close = target["close"].to_numpy(dtype=float)
 
             # Normalize each pattern to compare its shape,
@@ -147,11 +154,11 @@ if "history_data" in st.session_state:
 
                 results = []
 
-                for start in range(0, target_start - 47):
-                    end = start + 48
+                for start in range(0, target_start - pattern_length + 1):
+    end = start + pattern_length
                     candidate = history.iloc[start:end]
 
-                    if len(candidate) != 48:
+                    if len(candidate) != pattern_length:
                         continue
 
                     # Do not compare windows with missing hourly bars.
@@ -307,13 +314,13 @@ if "history_data" in st.session_state:
                 )
         else:
             st.warning(
-                "The selected target does not contain 48 candles."
-            )
+    f"The selected target does not contain {pattern_length} candles."
+)
 
     else:
         st.warning(
-            "At least 97 valid candles are needed to compare "
-            "a 48-candle target with an earlier pattern."
+    f"At least {pattern_length * 2 + 1} valid candles are needed "
+    f"to compare a {pattern_length}-candle target with an earlier pattern."
         )
 
 else:
