@@ -154,15 +154,15 @@ if "history_data" in st.session_state:
 
                 results = []
 
-                for start in range(0, target_start - pattern_length + 1):
-    end = start + pattern_length
+                                for start in range(0, target_start - pattern_length + 1):
+                    end = start + pattern_length
                     candidate = history.iloc[start:end]
 
                     if len(candidate) != pattern_length:
                         continue
 
                     # Do not compare windows with missing hourly bars.
-                                        # Check timestamp order and duplicates.
+                    # Check timestamp order and duplicates.
                     times = candidate["timestamp"]
 
                     if not times.is_monotonic_increasing:
@@ -303,7 +303,7 @@ if "history_data" in st.session_state:
                             "after this historical match."
                         )
 
-                    st.write(
+                                        st.write(
                         "Similarity score:",
                         f"{selected['similarity']:.2f}%"
                     )
@@ -312,15 +312,16 @@ if "history_data" in st.session_state:
                 st.error(
                     "The first target closing price cannot be zero."
                 )
+
         else:
             st.warning(
-    f"The selected target does not contain {pattern_length} candles."
-)
+                f"The selected target does not contain {pattern_length} candles."
+            )
 
     else:
         st.warning(
-    f"At least {pattern_length * 2 + 1} valid candles are needed "
-    f"to compare a {pattern_length}-candle target with an earlier pattern."
+            f"At least {pattern_length * 2 + 1} valid candles are needed "
+            f"to compare a {pattern_length}-candle target with an earlier pattern."
         )
 
 else:
@@ -331,10 +332,10 @@ else:
 st.divider()
 st.header("4. Backtesting")
 st.info(
-    "Historical pattern matching is available above. "
-    "A proper walk-forward backtest with performance statistics "
-    "will be implemented separately."
-        )
+"Historical pattern matching is available above. "
+"A proper walk-forward backtest with performance statistics "
+"will be implemented separately."
+)
 
 
 
