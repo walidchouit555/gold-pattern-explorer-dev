@@ -154,7 +154,7 @@ if "history_data" in st.session_state:
 
                 results = []
 
-                                for start in range(0, target_start - pattern_length + 1):
+                for start in range(0, target_start - pattern_length + 1):
                     end = start + pattern_length
                     candidate = history.iloc[start:end]
 
@@ -297,13 +297,13 @@ if "history_data" in st.session_state:
                             use_container_width=True,
                             hide_index=True
                         )
-                    else:
+                     else:
                         st.info(
                             "No subsequent candles are available "
                             "after this historical match."
                         )
 
-                                        st.write(
+                    st.write(
                         "Similarity score:",
                         f"{selected['similarity']:.2f}%"
                     )
