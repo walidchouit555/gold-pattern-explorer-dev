@@ -186,7 +186,7 @@ else:
             max_value=max_start,
             value=max_start,
             step=1,
-            key="matching_target_start"
+            key=f"matching_target_start_{pattern_length}"
         )
 
         target_start = int(target_start)
